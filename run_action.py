@@ -61,6 +61,8 @@ def get_pull_request_files(
 ):
     """Generator of GitHub metadata about files modified by the processed PR"""
 
+    print("getting pages from", f"{github_api_url}/repos/{repo}/pulls/{pull_request_id:d}/files?page={page:d}")
+
     # Request a maximum of 100 pages (3000 items)
     for page in range(1, 101):
         result = requests.get(
@@ -75,6 +77,7 @@ def get_pull_request_files(
         assert result.status_code == requests.codes.ok  # pylint: disable=no-member
 
         chunk = json.loads(result.text)
+        print(chunk)
 
         if not chunk:
             break
